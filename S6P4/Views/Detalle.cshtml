@@ -1,0 +1,66 @@
+﻿@model S6P4.Models.PersonajeDetalleViewModel
+@using S6P4.Models
+@{
+    Layout = "~/Views/_LayoutPortal.cshtml";
+    var p = Model.Personaje;
+    ViewBag.Title = p != null ? p.Name : "No encontrado";
+}
+
+@if (p == null)
+{
+    <aside class="lado">
+        <div class="radar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <a class="btn" href="@Url.Action("Index", "Personajes")">◀ VOLVER</a>
+    </aside>
+    <section class="vidrio">
+        <div class="alerta error">⚠ @(Model.Error ?? "Personaje no encontrado.")</div>
+    </section>
+}
+else
+{
+    <aside class="lado">
+        <div class="vidrio retrato @("st-" + p.EstadoClase)">
+            <span class="numero">@p.NumeroFormateado</span>
+            <img src="@p.Image" alt="@p.Name" />
+        </div>
+
+        <div class="chips @("st-" + p.EstadoClase)" style="justify-content:center">
+            <span class="chip">@PersonajeHelper.EstadoEs(p.Status)</span>
+        </div>
+
+        <div class="mandos">
+            <div class="dial" aria-hidden="true"></div>
+            <a class="btn" style="width:auto" href="@Url.Action("Index", "Personajes")">◀ VOLVER</a>
+        </div>
+    </aside>
+
+    <section class="vidrio info-der @("st-" + p.EstadoClase)">
+        <h1>@p.Name</h1>
+
+        <div class="datos">
+            <div class="dato"><b>@p.Species</b><span>Especie</span></div>
+            <div class="dato"><b>@PersonajeHelper.GeneroEs(p.Gender)</b><span>Género</span></div>
+            <div class="dato"><b>@(string.IsNullOrEmpty(p.Type) ? "—" : p.Type)</b><span>Tipo</span></div>
+        </div>
+
+        <div class="datos">
+            <div class="dato"><b>@(p.Origin != null ? p.Origin.Name : "—")</b><span>Origen</span></div>
+            <div class="dato"><b>@(p.Location != null ? p.Location.Name : "—")</b><span>Última ubicación</span></div>
+            <div class="dato"><b>@(p.Episode != null ? p.Episode.Count : 0)</b><span>Episodios</span></div>
+        </div>
+
+        @if (Model.Episodios.Any())
+        {
+            <h3>APARICIONES</h3>
+            <div class="episodios">
+                @foreach (var e in Model.Episodios)
+                {
+                    <div class="episodio">
+                        <b>@e.Codigo</b>
+                        <span>@e.Name<small>@e.AirDate</small></span>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+}

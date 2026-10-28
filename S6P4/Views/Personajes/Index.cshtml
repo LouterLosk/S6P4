@@ -1,0 +1,80 @@
+﻿@model S6P4.Models.PersonajeListaViewModel
+@using S6P4.Models
+@{
+    ViewBag.Title = "Personajes";
+    Layout = "~/Views/_LayoutPortal.cshtml";
+    int delay = 0;
+}
+
+<aside class="lado">
+    <div class="radar" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <form class="mini-pantalla" action="@Url.Action("Index", "Personajes")" method="get">
+        <p class="etq">ESCÁNER</p>
+        <input class="campo" type="text" name="q" value="@Model.Q" placeholder="Nombre (ej. rick)"
+               aria-label="Buscar personaje" autocomplete="off" />
+        <select class="campo" name="estado" aria-label="Estado">
+            <option value="">Cualquier estado</option>
+            <option value="alive" @(Model.Estado == "alive" ? "selected" : "")>Vivo</option>
+            <option value="dead" @(Model.Estado == "dead" ? "selected" : "")>Muerto</option>
+            <option value="unknown" @(Model.Estado == "unknown" ? "selected" : "")>Desconocido</option>
+        </select>
+        <select class="campo" name="genero" aria-label="Género">
+            <option value="">Cualquier género</option>
+            <option value="female" @(Model.Genero == "female" ? "selected" : "")>Femenino</option>
+            <option value="male" @(Model.Genero == "male" ? "selected" : "")>Masculino</option>
+            <option value="genderless" @(Model.Genero == "genderless" ? "selected" : "")>Sin género</option>
+            <option value="unknown" @(Model.Genero == "unknown" ? "selected" : "")>Desconocido</option>
+        </select>
+        <button type="submit" class="btn cian">ESCANEAR</button>
+    </form>
+
+    @if (Model.TotalPaginas > 1)
+    {
+        <nav class="mini-pantalla" aria-label="Paginación">
+            <p class="etq">PÁGINA</p>
+            <p class="pag-estado">@Model.Pagina / @Model.TotalPaginas</p>
+            <div class="pag-botones">
+                <a class="btn @(Model.Pagina <= 1 ? "gris" : "")"
+                   href="@Url.Action("Index", "Personajes", new { q = Model.Q, estado = Model.Estado, genero = Model.Genero, pagina = Model.Pagina - 1 })">◀</a>
+                <a class="btn @(Model.Pagina >= Model.TotalPaginas ? "gris" : "")"
+                   href="@Url.Action("Index", "Personajes", new { q = Model.Q, estado = Model.Estado, genero = Model.Genero, pagina = Model.Pagina + 1 })">▶</a>
+            </div>
+        </nav>
+    }
+
+    <div class="mandos" aria-hidden="true">
+        <div class="dial"></div>
+        <div class="pulsadores"><i></i><i></i><i></i><i></i></div>
+    </div>
+</aside>
+
+<section class="vidrio">
+    <p class="etq">REGISTRO INTERDIMENSIONAL @(Model.Total > 0 ? "· " + Model.Total + " ENCONTRADOS" : "")</p>
+
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <div class="alerta error">⚠ @Model.Error</div>
+    }
+    else if (!Model.Personajes.Any())
+    {
+        <div class="vacio">No hay resultados para esa búsqueda.</div>
+    }
+
+    <div class="grid">
+        @foreach (var p in Model.Personajes)
+        {
+            <a class="card @("st-" + p.EstadoClase)" href="@Url.Action("Detalle", "Personajes", new { id = p.Id })" style="animation-delay:@(delay)ms">
+                <div class="arte">
+                    <span class="num">@p.NumeroFormateado</span>
+                    <img src="@p.Image" alt="@p.Name" loading="lazy" />
+                </div>
+                <div class="info">
+                    <h2 class="nombre">@p.Name</h2>
+                    <div class="estado"><i></i>@PersonajeHelper.EstadoEs(p.Status) · @p.Species</div>
+                </div>
+            </a>
+            delay += 40;
+        }
+    </div>
+</section>

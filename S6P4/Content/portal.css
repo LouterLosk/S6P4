@@ -1,0 +1,928 @@
+﻿/* =========================================================
+   DISPOSITIVO INTERDIMENSIONAL "Taller Semana 6" · diseño original
+   Carcasa de laboratorio con portal verde, escáner y pantalla CRT
+   ========================================================= */
+:root {
+    --bg: #070d0b;
+    --shell: #24362d;
+    --shell-osc: #121c17;
+    --cian: #7dff4f;
+    --nar: #b36bff;
+    --nar-osc: #5b2aa3;
+    --lima: #ffe14d;
+    --tinta: #e6f7ff;
+    --vidrio: #0a1713;
+    --gris: #8fa6c4;
+    --linea: #040807;
+    --ac: #7dff4f; /* color de acento (se redefine por atributo) */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--tinta);
+    min-height: 100vh;
+    background: radial-gradient(circle at 12% 8%, rgba(125,255,79,.16), transparent 42%), radial-gradient(circle at 90% 92%, rgba(179,107,255,.14), transparent 42%), linear-gradient(60deg, rgba(255,255,255,.03) 25%, transparent 25% 50%, rgba(255,255,255,.03) 50% 75%, transparent 75%) 0 0 / 34px 59px, var(--bg);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contenedor {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 70px 18px 50px;
+}
+
+/* ---------- Carcasa ---------- */
+.dispositivo {
+    position: relative;
+    isolation: isolate;
+    border-radius: 48px 48px 40px 40px;
+    background: linear-gradient(165deg, var(--shell), var(--shell-osc));
+    border: 6px solid var(--linea);
+    box-shadow: 0 0 0 4px #7fa38a, 0 22px 0 rgba(0,0,0,.35), 0 44px 70px rgba(0,0,0,.55);
+}
+
+.anillo { /* argolla naranja para colgar el dispositivo */
+    position: absolute;
+    left: 50%;
+    top: -52px;
+    transform: translateX(-50%);
+    z-index: -1;
+    width: 150px;
+    height: 74px;
+    border: 14px solid var(--nar);
+    border-bottom: 0;
+    border-radius: 80px 80px 0 0;
+    box-shadow: 0 0 0 4px var(--linea);
+}
+
+.dv-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 28px;
+    border-bottom: 6px solid var(--linea);
+    border-radius: 42px 42px 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+}
+
+.sensor {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff 0 8%, #b8f6ff 9% 24%, var(--cian) 50%, #006e86 100%);
+    border: 4px solid #e8eefc;
+    box-shadow: 0 0 0 3px var(--linea), 0 0 22px rgba(125,255,79,.85);
+}
+
+.leds {
+    display: flex;
+    gap: 8px;
+}
+
+.led {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--linea);
+    box-shadow: inset 0 -2px 3px rgba(0,0,0,.35);
+}
+
+    .led.a {
+        background: var(--nar);
+    }
+
+    .led.b {
+        background: var(--lima);
+    }
+
+    .led.c {
+        background: var(--cian);
+    }
+
+.dv-titulo {
+    margin: 0;
+    color: #fff;
+    font: 900 clamp(15px, 2.6vw, 26px) 'Chakra Petch', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 0 var(--linea);
+    line-height: 1.3;
+}
+
+    .dv-titulo small {
+        display: block;
+        margin-top: 4px;
+        font-size: .45em;
+        color: var(--cian);
+        letter-spacing: 3px;
+    }
+
+.dv-cuerpo {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: 22px;
+    padding: 22px 24px 8px;
+    align-items: stretch;
+}
+
+.dv-pie {
+    text-align: center;
+    padding: 16px 12px 22px;
+    color: #b4d6bc;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .5px;
+}
+
+/* ---------- Columna de mandos ---------- */
+.lado {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px;
+    background: rgba(4,10,30,.5);
+    border: 3px solid rgba(255,255,255,.2);
+    border-radius: 28px;
+}
+
+.radar {
+    width: 128px;
+    height: 128px;
+    margin: 0 auto;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    border: 5px solid var(--linea);
+    box-shadow: 0 0 0 3px #7fa38a, 0 0 22px rgba(125,255,79,.4);
+    background: linear-gradient(var(--cian) 0 0) center / 1px 100% no-repeat, linear-gradient(var(--cian) 0 0) center / 100% 1px no-repeat, repeating-radial-gradient(circle, transparent 0 15px, rgba(125,255,79,.45) 15px 16px), #06182a;
+}
+
+    .radar::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, rgba(125,255,79,.55), rgba(125,255,79,0) 28%);
+        animation: barrido 3.2s linear infinite;
+    }
+
+    .radar i {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--lima);
+        box-shadow: 0 0 8px var(--lima);
+    }
+
+        .radar i:nth-child(1) {
+            left: 28%;
+            top: 30%;
+        }
+
+        .radar i:nth-child(2) {
+            left: 66%;
+            top: 58%;
+        }
+
+        .radar i:nth-child(3) {
+            left: 44%;
+            top: 74%;
+        }
+
+@keyframes barrido {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.mini-pantalla {
+    padding: 12px;
+    border: 4px solid var(--linea);
+    border-radius: 16px;
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 4px), var(--vidrio);
+    box-shadow: inset 0 0 18px rgba(125,255,79,.18);
+}
+
+.etq {
+    margin: 0 0 8px;
+    font: 700 10px 'Chakra Petch', sans-serif;
+    letter-spacing: 3px;
+    color: var(--cian);
+}
+
+.campo {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    font: 700 16px 'Chakra Petch', sans-serif;
+    color: var(--tinta);
+    background: #040b08;
+    border: 2px solid var(--cian);
+    border-radius: 12px;
+}
+
+    .campo:focus {
+        outline: 3px solid rgba(125,255,79,.45);
+    }
+
+select.campo option {
+    background: #040b08;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    padding: 11px 14px;
+    font: 700 11px 'Chakra Petch', sans-serif;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background: var(--nar);
+    border: 3px solid var(--linea);
+    border-radius: 14px;
+    box-shadow: 0 5px 0 var(--nar-osc);
+    transition: transform .08s, box-shadow .08s;
+}
+
+    .btn:hover {
+        transform: translateY(2px);
+        box-shadow: 0 3px 0 var(--nar-osc);
+    }
+
+    .btn:active {
+        transform: translateY(5px);
+        box-shadow: 0 0 0 var(--nar-osc);
+    }
+
+    .btn.cian {
+        background: var(--cian);
+        box-shadow: 0 5px 0 #2b9a10;
+    }
+
+        .btn.cian:hover {
+            box-shadow: 0 3px 0 #2b9a10;
+        }
+
+    .btn.gris {
+        background: #7f8aa5;
+        box-shadow: 0 5px 0 #4f5972;
+        opacity: .55;
+        pointer-events: none;
+    }
+
+.pag-estado {
+    text-align: center;
+    margin: 0 0 8px;
+    font: 700 13px 'Chakra Petch', sans-serif;
+    color: var(--tinta);
+}
+
+.pag-botones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.mandos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.dial {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    flex: none;
+    border: 4px solid var(--linea);
+    background: conic-gradient(from 20deg, #cfe6d4, #6f8f78, #cfe6d4, #6f8f78, #cfe6d4);
+    box-shadow: 0 5px 0 rgba(0,0,0,.4), inset 0 0 0 11px #1d4a2a;
+}
+
+.pulsadores {
+    display: grid;
+    grid-template-columns: repeat(2, 28px);
+    gap: 8px;
+}
+
+    .pulsadores i {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 3px solid var(--linea);
+        background: radial-gradient(circle at 35% 30%, #ffd9a8, var(--nar));
+        box-shadow: 0 4px 0 var(--linea);
+    }
+
+        .pulsadores i:nth-child(2) {
+            background: radial-gradient(circle at 35% 30%, #d6fbff, var(--cian));
+        }
+
+        .pulsadores i:nth-child(3) {
+            background: radial-gradient(circle at 35% 30%, #efffc4, var(--lima));
+        }
+
+        .pulsadores i:nth-child(4) {
+            background: radial-gradient(circle at 35% 30%, #fff, #9aa8cf);
+        }
+
+/* ---------- Pantalla principal ---------- */
+.vidrio {
+    position: relative;
+    min-width: 0;
+    padding: 18px;
+    border-radius: 30px 8px 30px 8px;
+    border: 8px solid var(--linea);
+    color: var(--tinta);
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 2px, transparent 2px 4px), radial-gradient(circle at 50% 0%, rgba(125,255,79,.14), transparent 60%), var(--vidrio);
+    box-shadow: inset 0 0 40px rgba(125,255,79,.22), 0 0 0 3px #7fa38a, 0 0 28px rgba(125,255,79,.25);
+}
+
+/* ---------- Tarjetas ---------- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 18px 4px 18px 4px;
+    background: linear-gradient(180deg, #16301f, #0b1a12);
+    border: 3px solid var(--ac);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--ac) 40%, transparent), 4px 5px 0 rgba(0,0,0,.5);
+    transition: transform .18s cubic-bezier(.3,1.6,.5,1), box-shadow .18s;
+    animation: entrar .45s both;
+}
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 0 24px var(--ac), 6px 10px 0 rgba(0,0,0,.5);
+    }
+
+@keyframes entrar {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.95);
+    }
+}
+
+.card .arte {
+    height: 150px;
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    position: relative;
+    background: radial-gradient(circle, color-mix(in srgb, var(--ac) 38%, transparent), transparent 68%);
+    border-bottom: 2px dashed color-mix(in srgb, var(--ac) 60%, transparent);
+}
+
+.card img {
+    max-width: 120px;
+    max-height: 128px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 6px rgba(0,0,0,.6));
+    transition: transform .2s;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card .num {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font: 700 10px 'Chakra Petch', sans-serif;
+    color: var(--ac);
+    background: rgba(0,0,0,.6);
+    padding: 4px 7px;
+    border-radius: 6px;
+}
+
+.card .info {
+    padding: 10px 8px 14px;
+    text-align: center;
+}
+
+.card .nombre {
+    margin: 0;
+    font: 700 11px/1.5 'Chakra Petch', sans-serif;
+    word-break: break-word;
+}
+
+/* ---------- Estado del personaje (colores) ---------- */
+.st-alive {
+    --ac: #7dff4f;
+}
+
+.st-dead {
+    --ac: #ff5a5f;
+}
+
+.st-unknown {
+    --ac: #9aa5b5;
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+}
+
+.chip {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    color: var(--ac);
+    border: 2px solid var(--ac);
+    background: rgba(0,0,0,.4);
+}
+
+/* ---------- Detalle ---------- */
+.retrato {
+    text-align: center;
+    padding: 26px 12px;
+    border-radius: 30px 8px 30px 8px;
+}
+
+    .retrato::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(circle, color-mix(in srgb, var(--ac) 45%, transparent), transparent 65%);
+        pointer-events: none;
+    }
+
+    .retrato img {
+        position: relative;
+        width: 100%;
+        max-width: 270px;
+        filter: drop-shadow(0 10px 8px rgba(0,0,0,.6));
+        animation: flotar 3s ease-in-out infinite;
+    }
+
+@keyframes flotar {
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.retrato .numero {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    font: 700 11px 'Chakra Petch', sans-serif;
+    color: var(--ac);
+    background: rgba(0,0,0,.6);
+    padding: 5px 8px;
+    border-radius: 6px;
+}
+
+.info-der h1 {
+    margin: 0;
+    font: 900 clamp(18px, 3vw, 30px) 'Chakra Petch', sans-serif;
+    line-height: 1.3;
+    text-shadow: 0 0 14px var(--ac);
+}
+
+.info-der h3 {
+    margin: 22px 0 10px;
+    font: 700 12px 'Chakra Petch', sans-serif;
+    letter-spacing: 3px;
+    color: var(--cian);
+}
+
+.datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.dato {
+    padding: 10px;
+    text-align: center;
+    border: 2px solid rgba(125,255,79,.5);
+    border-radius: 12px;
+    background: rgba(0,0,0,.35);
+}
+
+    .dato b {
+        display: block;
+        font: 700 13px 'Chakra Petch', sans-serif;
+        margin-bottom: 4px;
+        word-break: break-word;
+    }
+
+    .dato span {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--gris);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+.descripcion {
+    margin: 14px 0;
+    padding: 12px 14px;
+    line-height: 1.55;
+    border-left: 5px solid var(--ac);
+    background: rgba(0,0,0,.35);
+    border-radius: 4px 12px 12px 4px;
+}
+
+.campos {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.campo-ico {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(0,0,0,.35);
+}
+
+    .campo-ico img {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+    }
+
+.habilidad {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border: 2px solid rgba(179,107,255,.7);
+    border-radius: 12px;
+    background: rgba(0,0,0,.35);
+}
+
+    .habilidad b {
+        font: 700 13px 'Chakra Petch', sans-serif;
+        color: var(--nar);
+    }
+
+    .habilidad em {
+        color: var(--gris);
+        font-style: normal;
+        margin-left: 6px;
+    }
+
+    .habilidad p {
+        margin: 6px 0 0;
+        line-height: 1.45;
+        font-size: 15px;
+    }
+
+.evos {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.evo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    border: 2px solid var(--lima);
+    border-radius: 14px;
+    background: rgba(0,0,0,.35);
+    font-weight: 700;
+    transition: transform .15s;
+}
+
+    .evo:hover {
+        transform: translateY(-3px);
+    }
+
+    .evo img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+    }
+
+    .evo small {
+        display: block;
+        color: var(--gris);
+        font-weight: 600;
+        font-size: 12px;
+        max-width: 170px;
+    }
+
+/* ---------- Estados ---------- */
+.alerta {
+    margin-bottom: 16px;
+    padding: 16px;
+    font-weight: 700;
+    border: 3px solid var(--nar);
+    border-radius: 14px;
+    background: rgba(179,107,255,.15);
+}
+
+    .alerta.error {
+        border-color: #ff5a5f;
+        background: rgba(255,90,95,.16);
+    }
+
+.vacio {
+    text-align: center;
+    padding: 50px 10px;
+    color: var(--gris);
+    font-weight: 700;
+}
+
+.cargando {
+    text-align: center;
+    padding: 60px 0;
+    font: 700 12px/2 'Chakra Petch', sans-serif;
+    letter-spacing: 2px;
+    color: var(--cian);
+}
+
+.spinner {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    border: 7px solid rgba(125,255,79,.25);
+    border-top-color: var(--cian);
+    border-bottom-color: var(--nar);
+    animation: giro .9s linear infinite;
+}
+
+@keyframes giro {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Ventana modal (demo HTML) ---------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 22px 14px;
+    background: rgba(3,6,16,.82);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+}
+
+    .modal.abierto {
+        display: flex;
+    }
+
+    .modal .caja {
+        width: 100%;
+        max-width: 980px;
+        margin: auto;
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(230px, 340px) 1fr;
+        gap: 16px;
+    }
+
+.cerrar {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    z-index: 5;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--linea);
+    background: var(--nar);
+    font: 900 18px 'Chakra Petch', sans-serif;
+    color: #ffffff;
+    box-shadow: 0 4px 0 var(--nar-osc);
+}
+
+@media (max-width: 860px) {
+    .dv-cuerpo {
+        grid-template-columns: 1fr;
+        padding: 16px 12px 4px;
+    }
+
+    .radar {
+        width: 96px;
+        height: 96px;
+    }
+
+    .leds {
+        display: none;
+    }
+
+    .modal .caja {
+        grid-template-columns: 1fr;
+    }
+
+    .contenedor {
+        padding-top: 64px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+.retrato {
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+}
+
+/* ---------- Portal (reemplaza al anillo) ---------- */
+.anillo {
+    top: -90px;
+    left: auto;
+    right: 64px;
+    transform: none;
+    width: 150px;
+    height: 150px;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: none;
+    background: conic-gradient(from 0deg, #c8ffb0, #2fd45f, #0f6b2c, #7dff4f, #e4ffd6, #2fd45f, #c8ffb0);
+    -webkit-mask: radial-gradient(circle, transparent 0 34%, #000 36% 100%);
+    mask: radial-gradient(circle, transparent 0 34%, #000 36% 100%);
+    filter: drop-shadow(0 0 18px rgba(125,255,79,.85));
+    animation: giro-portal 6s linear infinite;
+}
+
+@keyframes giro-portal {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.contenedor {
+    padding-top: 110px;
+}
+
+.dispositivo {
+    background: radial-gradient(circle, rgba(255,255,255,.08) 1.5px, transparent 2px) 0 0 / 22px 22px, linear-gradient(165deg, var(--shell), var(--shell-osc));
+    border-radius: 34px 34px 28px 28px;
+}
+
+.dv-top {
+    border-radius: 28px 28px 0 0;
+}
+
+.sensor {
+    background: radial-gradient(circle at 35% 30%, #fff 0 8%, #d9ffc9 9% 24%, #7dff4f 50%, #0f6b2c 100%);
+}
+
+.btn.cian {
+    color: #06240a;
+}
+
+.btn.gris {
+    color: #fff;
+}
+
+.vidrio {
+    border-radius: 14px 30px 14px 30px;
+}
+
+.card {
+    border-radius: 14px 14px 4px 4px;
+}
+
+    /* ---------- Tarjetas con rostro ---------- */
+    .card .arte {
+        height: auto;
+        padding: 0;
+        border-bottom: 3px solid var(--ac);
+        background: #040807;
+    }
+
+    .card img {
+        display: block;
+        width: 100%;
+        max-width: none;
+        max-height: none;
+        aspect-ratio: 1;
+        object-fit: cover;
+        filter: none;
+    }
+
+    .card .num {
+        z-index: 2;
+    }
+
+    .card .estado {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--gris);
+    }
+
+        .card .estado i {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--ac);
+            box-shadow: 0 0 8px var(--ac);
+        }
+
+.retrato {
+    padding: 12px;
+}
+
+    .retrato img {
+        max-width: 100%;
+        border-radius: 12px;
+        border: 3px solid var(--ac);
+        animation: none;
+        filter: none;
+    }
+
+/* ---------- Episodios ---------- */
+.episodios {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    max-height: 340px;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.episodio {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 7px 10px;
+    border: 2px solid rgba(255,255,255,.18);
+    border-radius: 10px;
+    background: rgba(0,0,0,.35);
+    font-size: 14px;
+}
+
+    .episodio b {
+        flex: none;
+        font: 700 11px 'Chakra Petch', sans-serif;
+        color: var(--nar);
+        letter-spacing: 1px;
+    }
+
+    .episodio small {
+        display: block;
+        color: var(--gris);
+        font-size: 12px;
+    }
+
+@media (max-width: 860px) {
+    .contenedor {
+        padding-top: 100px;
+    }
+}
